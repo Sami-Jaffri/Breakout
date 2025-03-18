@@ -4,7 +4,7 @@ namespace _Scripts.Utils
 {
     public class HotSwapColor : MonoBehaviour
     {
-        [SerializeField] private Color color;
+        [SerializeField] public Color color;
         [SerializeField] private MeshRenderer mr;
 
         private MaterialPropertyBlock mpb;
