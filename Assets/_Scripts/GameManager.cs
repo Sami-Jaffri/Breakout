@@ -29,11 +29,25 @@ public class GameManager : SingletonMonoBehavior<GameManager>
 
     public void OnBrickDestroyed(Vector3 position)
     {
+        Collider[] hitColliders = Physics.OverlapSphere(position, 0.1f);
+        foreach (Collider hitCollider in hitColliders)
+        {
+            Brick brick = hitCollider.GetComponent<Brick>();
+            if (brick != null)
+            {
+                brick.StartCoroutine(brick.DestroyWithDelay());
+            }
+        }
         // fire audio here
         // implement particle effect here
         // add camera shake here
         currentBrickCount--;
         Debug.Log($"Destroyed Brick at {position}, {currentBrickCount}/{totalBrickCount} remaining");
+        CameraShake shake = FindObjectOfType<CameraShake>();
+        if (shake != null)
+        {
+            shake.ShakeCamera(0.5f, 0.2f); 
+        }
         if(currentBrickCount == 0) SceneHandler.Instance.LoadNextScene();
     }
 
