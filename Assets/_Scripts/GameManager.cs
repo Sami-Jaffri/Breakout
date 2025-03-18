@@ -43,6 +43,11 @@ public class GameManager : SingletonMonoBehavior<GameManager>
         // add camera shake here
         currentBrickCount--;
         Debug.Log($"Destroyed Brick at {position}, {currentBrickCount}/{totalBrickCount} remaining");
+        CameraShake shake = FindObjectOfType<CameraShake>();
+        if (shake != null)
+        {
+            shake.ShakeCamera(0.5f, 0.2f); 
+        }
         if(currentBrickCount == 0) SceneHandler.Instance.LoadNextScene();
     }
 
