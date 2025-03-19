@@ -9,6 +9,7 @@ public class ButtonHooks : MonoBehaviour
 
     public void ExitToMenu()
     {
+        Time.timeScale = 1f;
         SceneHandler.Instance.LoadMenuScene();
     }
 }
