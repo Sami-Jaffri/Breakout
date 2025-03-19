@@ -22,6 +22,9 @@ public class Ball : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             rb.AddForce(directionToFire * returnSpeed, ForceMode.Impulse);
+            //BallSpeed increases each hit
+            minBallBounceBackSpeed+=0.6f;
+            maxBallBounceBackSpeed+=0.6f;
         }
     }
 

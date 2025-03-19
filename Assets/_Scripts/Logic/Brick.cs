@@ -4,6 +4,7 @@ using _Scripts.Utils;
 
 public class Brick : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem ps;
     private Coroutine destroyRoutine = null;
     private HotSwapColor hotSwapColor;
     private Color originalColor;
@@ -54,5 +55,7 @@ public class Brick : MonoBehaviour
 
         GameManager.Instance.OnBrickDestroyed(transform.position);
         Destroy(gameObject);
+        Instantiate(ps,gameObject.transform.position,Quaternion.identity);
+
     }
 }
