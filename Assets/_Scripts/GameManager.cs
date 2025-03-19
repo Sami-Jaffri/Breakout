@@ -1,14 +1,23 @@
 ﻿using UnityEngine;
+using TMPro;
+using NUnit.Framework.Constraints;
+using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonMonoBehavior<GameManager>
 {
     [SerializeField] private int maxLives = 3;
     [SerializeField] private Ball ball;
     [SerializeField] private Transform bricksContainer;
+    [SerializeField] private TextMeshProUGUI livesCount;
+    [SerializeField] private GameObject gameOverMenu;
 
     private int currentBrickCount;
     private int totalBrickCount;
 
+    private void Start()
+    {
+        gameOverMenu.SetActive(false);
+    }
     private void OnEnable()
     {
         InputHandler.Instance.OnFire.AddListener(FireBall);
@@ -46,9 +55,9 @@ public class GameManager : SingletonMonoBehavior<GameManager>
         CameraShake shake = FindObjectOfType<CameraShake>();
         if (shake != null)
         {
-            shake.ShakeCamera(0.5f, 0.2f); 
+            shake.ShakeCamera(0.5f, 0.2f);
         }
-        if(currentBrickCount == 0) SceneHandler.Instance.LoadNextScene();
+        if (currentBrickCount == 0) SceneHandler.Instance.LoadNextScene();
     }
 
     public void KillBall()
@@ -56,6 +65,24 @@ public class GameManager : SingletonMonoBehavior<GameManager>
         maxLives--;
         // update lives on HUD here
         // game over UI if maxLives < 0, then exit to main menu after delay
-        ball.ResetBall();
+        livesCount.SetText(maxLives.ToString());
+        if (maxLives <= 0)
+        {
+            GameOver();
+        }
+        else
+        {
+            ball.ResetBall();
+        }
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 0f;
+        gameOverMenu.SetActive(true);
+    }
+    public void returnToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
